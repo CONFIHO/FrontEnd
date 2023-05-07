@@ -8,6 +8,8 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PagesModule } from './pages/pages.module';
 import { MaterialModule } from './material.module';
+import { IAuthService } from './interfaces/i-auth-service';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { MaterialModule } from './material.module';
     MaterialModule,
     PagesModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: IAuthService, useClass: AuthService}
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
