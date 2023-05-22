@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { IAuthService } from '../interfaces/i-auth-service';
 
 @Injectable({
@@ -8,6 +8,10 @@ import { IAuthService } from '../interfaces/i-auth-service';
 export class AuthService implements IAuthService{
 
   constructor(private auth: Auth) {}
+
+  logout() {
+    return signOut(this.auth)
+  }
 
   login(email: string, password: string){
     return signInWithEmailAndPassword(this.auth, email, password);

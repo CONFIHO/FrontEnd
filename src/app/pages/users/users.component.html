@@ -1,0 +1,38 @@
+<app-graphic-users></app-graphic-users>
+<div class="pt-5 px-10 grid grid-cols-12">
+  <p class="my-2 lg:my-0 text-center xl:text-left font-extrabold col-span-12 lg:col-span-3 2xl:col-span-4">Lista de usuarios</p>
+  <div class="my-2 lg:my-0 sm:text-center grid grid-cols-12 col-span-12 lg:col-span-6 2xl:col-span-4">
+    <app-input-text
+      class="col-span-9"
+      placeholder="Busca un usuario aquí"
+      icon="assets/icons/search.svg"
+    ></app-input-text>
+    <button class="col-span-3 relative ml-5 border border-purple rounded">
+      <img
+        src="assets/icons/filter.svg"
+        alt="filter"
+        class="w-5 absolute left-2"
+      />
+      <p class="text-right pr-2 text-purple">Filtros</p>
+    </button>
+  </div>
+  <div class="my-2 lg:my-0 text-right col-span-12 lg:col-span-3 2xl:col-span-4">
+    <button mat-flat-button (click)="openDialog('create')" class="bg-purple rounded px-5 py-1 text-white drop-shadow-md">
+      Agregar usuario
+    </button>
+  </div>
+  <app-table class="col-span-12 mt-5" [titles]="titles">
+    <tr class="text-center">
+        <td>Cristian David</td>
+        <td>Parada Martinez</td>
+        <td>crispo9028@gmail.com</td>
+        <td>Super Administrador</td>
+        <td>
+            <app-chip></app-chip>
+        </td>
+        <td>
+            <img src="assets/icons/settings.svg" (click)="openDialog('edit')" class="inline-block cursor-pointer" alt="svg">
+        </td>
+    </tr>
+  </app-table>
+</div>

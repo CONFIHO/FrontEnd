@@ -10,3 +10,8 @@
 ::-webkit-scrollbar{
     display: none;
 }
+
+.mat-dialog-container{
+    overflow: unset !important;
+    position: relative;
+}

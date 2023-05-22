@@ -1,0 +1,10 @@
+.my-round{
+    border-radius: 100px;
+}
+
+.charts{
+    background: url('../../../../../assets/images/charts_bg.png') no-repeat;
+    background-color: #710F77;
+    background-size: 98%;
+    background-position: 10%;
+}

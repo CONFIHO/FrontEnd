@@ -1,0 +1,15 @@
+.background{
+    width: 100%;
+    background-image: url('../../../assets/images/charts_bg.png');
+    background-color: #710F77;
+    background-size: 100%;
+}
+
+mat-spinner{
+    display: inline-block !important;
+    margin-right: 1rem;
+}
+
+.mat-raised-button{
+    transform: translateY(-8px) !important;
+}

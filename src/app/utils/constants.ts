@@ -12,3 +12,4 @@ export const Toast = Swal.mixin({
     },
   });
   
+export const API_UTL = 'http://localhost:5000'

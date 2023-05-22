@@ -7,7 +7,15 @@ module.exports = {
         purple: "#5703C1",
         purple_dark: "#240951",
         purple2: "#5107AF",
-        gray: '#CECECE'
+        purple3: "#6735A7",
+        purple4: "#2C144A",
+        fuxia: '#650D6B',
+        fuxia_chart: '#a8385d',
+        gray: '#CECECE',
+        gary_ligth: '#EEEEEE',
+        gray_extra_light: '#F3F3F3',
+        green: '#17A100',
+        red: '#FF6767',
       },
       fontSize: {
         8: ["0.5rem", "1rem"],

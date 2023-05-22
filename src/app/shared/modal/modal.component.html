@@ -1,0 +1,12 @@
+<div class="max-h-[90vh]" [style.width]="width">
+  <img
+    src="assets/images/dino_modal.png"
+    alt=""
+    class="dino_out"
+    width="60px"
+  />
+  <button mat-icon-button class="float-right" (click)="matDialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <ng-content></ng-content>
+</div>

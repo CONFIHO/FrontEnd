@@ -1,0 +1,156 @@
+<div class="background flex justify-center">
+  <div
+    class="bg-white min-h-[100vh] w-[60vw] grid grid-cols-1 xl:grid-cols-2 p-10"
+  >
+    <div>
+      <p class="text-left font-bold text-purple">Tipos de usuarios</p>
+      <br />
+      <ngx-charts-pie-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="pie"
+        [gradient]="gradient"
+        [legend]="showLegend"
+        [legendPosition]="legendPosition"
+        [labels]="showLabels"
+        [doughnut]="isDoughnut"
+      >
+      </ngx-charts-pie-chart>
+      <p class="px-10 text-justify">
+        A continuación puedes observar una gráfica de la cantidad total de
+        usarios en la aplicación actualmente, donde el color
+        <span class="text-purple font-bold">morado</span> representa los
+        <span class="text-purple font-bold">consumidores</span> y el color
+        <span class="text-fuxia font-bold">fuxia</span> representa los
+        <span class="text-fuxia font-bold">administradores</span>
+      </p>
+    </div>
+    <div>
+      <p class="text-left font-bold text-purple">
+        Usuarios activos e inactivos
+      </p>
+      <br />
+      <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="colorSchemeActives"
+        [results]="actives"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="'Estado'"
+        [yAxisLabel]="'Cantidad de usuarios'"
+      >
+      </ngx-charts-bar-vertical>
+      <p class="px-10 text-justify">
+        A continuación puedes observar una gráfica de la cantidad total de
+        usarios activos e inactivos en la aplicación actualmente, donde el color
+        <span class="text-green font-bold">verde</span> representa los usuarios
+        <span class="text-green font-bold">activos</span> y el color
+        <span class="text-red font-bold">rojo</span> representa los usuarios
+        <span class="text-red font-bold">inactivos</span>
+      </p>
+    </div>
+    <br />
+    <p class="text-left font-bold text-purple col-span-2">
+      Reportes estadísticos por fecha
+    </p>
+    <br />
+    <div class="col-span-2">
+      <mat-form-field class="w-1/3 relative mr-10" appearance="outline">
+        <mat-label>Ingresa un rango de fechas</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+          <input
+            matStartDate
+            formControlName="start"
+            placeholder="Start date"
+          />
+          <input matEndDate formControlName="end" placeholder="End date" />
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+          class="absolute right-0 top-0"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+          >Invalid start date</mat-error
+        >
+        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+          >Invalid end date</mat-error
+        >
+      </mat-form-field>
+      <button
+        mat-raised-button
+        class="translate-y-[-10px] block bg-purple text-white"
+      >
+        <mat-spinner
+          *ngIf="searching"
+          [color]="color"
+          diameter="20"
+        ></mat-spinner>
+        <span>Buscar</span>
+      </button>
+    </div>
+    <div class="mt-5">
+      <p class="text-left font-bold text-purple">
+        Dinero manejado dentro de la App
+      </p>
+      <br />
+      <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="colorSchemeActives"
+        [legend]="false"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxis]="true"
+        [yAxis]="true"
+        [xAxisLabel]="'Fecha'"
+        [yAxisLabel]="'Monto'"
+        [timeline]="true"
+        [results]="multi2"
+      >
+      </ngx-charts-line-chart>
+      <p class="px-10 text-justify">
+        A continuación puedes observar una gráfica de la cantidad total de
+        dinero que esta siendo administrado por <b>CONFIHO</b> a través del
+        rango de fechas suministradas
+      </p>
+    </div>
+    <div class="mt-5">
+      <p class="text-left font-bold text-purple">Cantidad de usuarios</p>
+      <br />
+      <ngx-charts-area-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [legend]="false"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxis]="true"
+        [yAxis]="true"
+        [xAxisLabel]="'Fecha'"
+        [yAxisLabel]="'Cantidad'"
+        [timeline]="true"
+        [results]="multi"
+      >
+      </ngx-charts-area-chart>
+      <p class="px-10 text-justify">
+        A continuación puedes observar una gráfica de la cantidad total de
+        usuarios de <b>CONFIHO</b> que se estan incorporando a través del rango
+        de fechas suministradas, donde el color
+        <span class="text-purple font-bold">morado</span> representa los
+        <span class="text-purple font-bold">consumidores</span> y el color
+        <span class="text-fuxia font-bold">fuxia</span> representa los
+        <span class="text-fuxia font-bold">administradores</span>
+      </p>
+    </div>
+    <div class="col-span-2 text-center mt-10">
+        <img src="assets/images/dinos-login.png" alt="dinos" class="w-2/3 inline-block" >
+        <p>GRACIAS POR CONFIAR EN <b class="text-purple">CONFIHO</b></p><br>
+        <img src="assets/images/logo.png" alt="logo" class="w-[100px] inline-block">
+    </div>
+  </div>
+</div>

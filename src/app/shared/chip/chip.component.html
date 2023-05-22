@@ -1,0 +1,11 @@
+<label *ngIf="!!formGroup; else defaultToggleButton" class="switch" [formGroup]="formGroup">
+    <input type="checkbox" [formControlName]="name" [checked]="value" (change)="onChangeValue($event)" />
+    <span class="slider round"></span>
+  </label>
+  <ng-template #defaultToggleButton>
+    <label class="switch">
+      <input type="checkbox" [checked]="value" (change)="onChangeValue($event)" />
+      <span class="slider round"></span>
+    </label>
+  </ng-template>
+  
