@@ -1,4 +1,4 @@
-<div class="border border-purple rounded p-1 relative">
+<div class="border border-purple rounded p-1 relative" *ngIf="form" [formGroup]="form">
     <img *ngIf="icon" [src]="icon" alt="search icon" class="absolute left-3 top-1.5 w-5">
-    <input type="text" class="w-full h-full {{icon?'pl-10':''}}" [placeholder]="placeholder">
+    <input type="text" class="w-full h-full {{icon?'pl-10':''}}" [placeholder]="placeholder" [formControlName]="name">
 </div>

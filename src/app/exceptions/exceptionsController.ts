@@ -7,5 +7,9 @@ export function controllerExceptions(error: any) {
     case 'auth/wrong-password':
       return 'Usuario y/o contraseña inválida'
   }
+  switch (error) {
+    case 'database connection':
+      return 'Conexión fallida con la base de datos'
+  }
   return 'Ha ocurrido un error inesperado, lamentamos los inconvenientes'
 }

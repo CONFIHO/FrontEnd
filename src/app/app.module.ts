@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { ModalService } from './services/modal.service';
 import { IUserService } from './interfaces/i-user-service';
 import { UserService } from './services/user.service';
 import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -30,8 +31,10 @@ import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http'
     BrowserAnimationsModule,
     MaterialModule,
     PagesModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxSpinnerModule.forRoot({type: 'ball-scale-multiple'})
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     {provide: IAuthService, useClass: AuthService},
     {provide: INotificationService, useClass: NotificationService},

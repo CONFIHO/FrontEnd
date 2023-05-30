@@ -1,1 +1,7 @@
+<div
+  class="fixed left-0 top-0 w-screen h-screen dark z-30 flex items-center justify-center"
+  *ngIf="notificationService.showSpinner"
+>
+  <mat-spinner></mat-spinner>
+</div>
 <router-outlet></router-outlet>

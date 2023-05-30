@@ -8,13 +8,3 @@
     </tbody>
   </table>
 </div>
-<mat-paginator
-  (page)="handlePageEvent($event)"
-  [length]="total"
-  [pageSize]="per_page"
-  [showFirstLastButtons]="true"
-  [pageSizeOptions]="[10, 20, 30]"
-  [hidePageSize]="false"
-  [pageIndex]="page"
->
-</mat-paginator>

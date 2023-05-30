@@ -1,13 +1,24 @@
 <app-graphic-users></app-graphic-users>
 <div class="pt-5 px-10 grid grid-cols-12">
-  <p class="my-2 lg:my-0 text-center xl:text-left font-extrabold col-span-12 lg:col-span-3 2xl:col-span-4">Lista de usuarios</p>
-  <div class="my-2 lg:my-0 sm:text-center grid grid-cols-12 col-span-12 lg:col-span-6 2xl:col-span-4">
-    <app-input-text
-      class="col-span-9"
-      placeholder="Busca un usuario aquí"
-      icon="assets/icons/search.svg"
-    ></app-input-text>
-    <button class="col-span-3 relative ml-5 border border-purple rounded">
+  <p
+    class="my-2 lg:my-0 text-center xl:text-left font-extrabold col-span-12 lg:col-span-3 2xl:col-span-4"
+  >
+    Lista de usuarios
+  </p>
+  <form
+    class="my-2 lg:my-0 sm:text-center grid grid-cols-12 col-span-12 lg:col-span-6 2xl:col-span-4" (submit)="search()"
+  >
+      <app-input-text
+        class="col-span-9"
+        placeholder="Busca un usuario aquí"
+        icon="assets/icons/search.svg"
+        [form]="formSearch"
+        name="search"
+      ></app-input-text>
+    <button
+      class="col-span-3 relative ml-5 border border-purple rounded"
+      [matMenuTriggerFor]="settingsMenu"
+    >
       <img
         src="assets/icons/filter.svg"
         alt="filter"
@@ -15,24 +26,55 @@
       />
       <p class="text-right pr-2 text-purple">Filtros</p>
     </button>
-  </div>
+    <mat-menu
+      #settingsMenu
+      class="p-5"
+      xPosition="before"
+      [formGroup]="formFilters"
+    >
+      <b class="text-purple">Tipos de usuarios</b>
+      <mat-radio-group class="text-12 mt-5" formControlName="filterUser">
+        <mat-radio-button value="admin" class="mr-2"
+          >Administradores</mat-radio-button
+        >
+        <mat-radio-button value="consummer"
+          >Consumidores</mat-radio-button
+        > </mat-radio-group
+      ><br /><br />
+      <b class="text-purple">Estado de los usuarios</b>
+      <mat-radio-group class="text-12 mt-5" formControlName="filterState">
+        <mat-radio-button value="active" class="mr-2">Activo</mat-radio-button>
+        <mat-radio-button value="inactive">Inactivo</mat-radio-button>
+      </mat-radio-group>
+      <div class="h-5"></div>
+      <button mat-raised-button (click)="cleanFilters()">Limpiar filtros</button>
+    </mat-menu>
+  </form>
   <div class="my-2 lg:my-0 text-right col-span-12 lg:col-span-3 2xl:col-span-4">
-    <button mat-flat-button (click)="openDialog('create')" class="bg-purple rounded px-5 py-1 text-white drop-shadow-md">
+    <button
+      mat-flat-button
+      (click)="openDialog('create', -1)"
+      class="bg-purple rounded px-5 py-1 text-white drop-shadow-md"
+    >
       Agregar usuario
     </button>
   </div>
   <app-table class="col-span-12 mt-5" [titles]="titles">
-    <tr class="text-center">
-        <td>Cristian David</td>
-        <td>Parada Martinez</td>
-        <td>crispo9028@gmail.com</td>
-        <td>Super Administrador</td>
-        <td>
-            <app-chip></app-chip>
-        </td>
-        <td>
-            <img src="assets/icons/settings.svg" (click)="openDialog('edit')" class="inline-block cursor-pointer" alt="svg">
-        </td>
+    <tr class="text-center" *ngFor="let user of users$ | async; index as i">
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.rol }}</td>
+      <td>
+        <app-chip [value]="user.enabled" (click)="updateState(i)"></app-chip>
+      </td>
+      <td>
+        <img
+          src="assets/icons/settings.svg"
+          (click)="openDialog('edit', i)"
+          class="inline-block cursor-pointer"
+          alt="svg"
+        />
+      </td>
     </tr>
   </app-table>
 </div>

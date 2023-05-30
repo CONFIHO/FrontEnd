@@ -1,6 +1,6 @@
 <div class="background flex justify-center">
   <div
-    class="bg-white min-h-[100vh] w-[60vw] grid grid-cols-1 xl:grid-cols-2 p-10"
+    class="bg-white min-h-[100vh] w-[100vw] 2xl:w-[60vw] grid grid-cols-1 xl:grid-cols-2 p-10"
   >
     <div>
       <p class="text-left font-bold text-purple">Tipos de usuarios</p>
@@ -86,6 +86,7 @@
       <button
         mat-raised-button
         class="translate-y-[-10px] block bg-purple text-white"
+        (click)="getDateGraphics()"
       >
         <mat-spinner
           *ngIf="searching"
@@ -123,20 +124,20 @@
     <div class="mt-5">
       <p class="text-left font-bold text-purple">Cantidad de usuarios</p>
       <br />
-      <ngx-charts-area-chart
+      <ngx-charts-bar-vertical
         [view]="view"
-        [scheme]="colorScheme"
-        [legend]="false"
+        [scheme]="colorSchemeCategories"
+        [results]="multi"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
-        [xAxis]="true"
-        [yAxis]="true"
-        [xAxisLabel]="'Fecha'"
-        [yAxisLabel]="'Cantidad'"
-        [timeline]="true"
-        [results]="multi"
+        [xAxisLabel]="'Categoria'"
+        [yAxisLabel]="'Cantidad de gastos'"
       >
-      </ngx-charts-area-chart>
+      </ngx-charts-bar-vertical>
       <p class="px-10 text-justify">
         A continuación puedes observar una gráfica de la cantidad total de
         usuarios de <b>CONFIHO</b> que se estan incorporando a través del rango

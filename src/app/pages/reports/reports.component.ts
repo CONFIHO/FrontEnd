@@ -1,111 +1,35 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
+import { userStore } from '../users.store';
+import { Rol } from 'src/app/models/Rol';
+import { User } from 'src/app/models/User';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  styleUrls: ['./reports.component.css'],
 })
-export class ReportsComponent{
+export class ReportsComponent implements OnInit {
+  pie: any[] = [];
 
-  pie: any[] = [
-    {
-      "name": "Administradores",
-      "value": 21
-    },
-    {
-      "name": "Consumidores",
-      "value": 30
-    },
-  ];
+  actives: any[] = [];
 
-  actives: any[] = [
-    {
-      "name": "Activos",
-      "value": 51
-    },
-    {
-      "name": "Inactivos",
-      "value": 3
-    },
-  ];
+  multi2: any[] = [];
 
-  multi2 : any[] = [
-    {
-      "name": "Germany",
-      "series": [
-        {
-          "name": "13",
-          "value": 12000000
-        },
-        {
-          "name": "14",
-          "value": 25000000
-        },
-        {
-          "name": "15",
-          "value": 10000000
-        },
-        {
-          "name": "18",
-          "value": 35000000
-        },
-        {
-          "name": "21",
-          "value": 5000000
-        }
-      ]
-    },
-  ];
+  multi: any[] = [];
 
-  multi: any[] = [
-    {
-      "name": "Consumidores",
-      "series": [
-        {
-          "name": "13",
-          "value": 12
-        },
-        {
-          "name": "18",
-          "value": 13
-        },
-        {
-          "name": "21",
-          "value": 14
-        }
-      ]
-    },
-  
-    {
-      "name": "Administradores",
-      "series": [
-        {
-          "name": "13",
-          "value": 21
-        },
-        {
-          "name": "18",
-          "value": 22
-        },
-        {
-          "name": "21",
-          "value": 23
-        }
-      ]
-    },
-  
-  ];
-  
   view: [number, number] = [450, 450];
-  range = new FormGroup({
-    start: new FormControl<string>(moment(new Date()).add(-8, 'days').format('YYYY-MM-DD')),
+  range = this.fb.group({
+    start: new FormControl<string>(
+      moment(new Date()).add(-8, 'days').format('YYYY-MM-DD')
+    ),
     end: new FormControl<string>(moment().format('YYYY-MM-DD')),
   });
-  searching:boolean = false;
+  searching: boolean = false;
   color: ThemePalette = 'accent';
 
   // options
@@ -126,16 +50,144 @@ export class ReportsComponent{
     name: '',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#a8385d', '#5107AF']
+    domain: ['#a8385d', '#5107AF'],
   };
 
   colorSchemeActives: Color = {
     name: '',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#17A100', '#FF6767']
+    domain: ['#17A100', '#FF6767'],
+  };
+  users$!: Subscription;
+
+  colorSchemeCategories: Color = {
+    name: '',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#13BF6D', '#4478C1', '#FFD180', '#D674B6', '#00A1AE'],
   };
 
-  constructor() {}
+  //alim, estudio, hogar, ropa, personal
 
+  constructor(private userStore: userStore, private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    (async () => {
+      await this.userStore.fetchUsers();
+      this.users$ = this.userStore.userList$.subscribe((userList) => {
+        this.getGraphics(userList);
+      });
+      await this.getDateGraphics();
+    })();
+  }
+
+  async getDateGraphics() {
+    await this.userStore.fetchConsumptionReport(
+      this.range.value as { start: string | null; end: string | null }
+    );
+    const consumptionReport = this.userStore.consumptionReport;
+    this.multi2 = [
+      {
+        name: 'Consumo',
+        series: consumptionReport.map((consumption) => ({
+          name: moment.utc(consumption.expense_date).format('DD/MM/YYYY'),
+          value: consumption._sum.value,
+        })),
+      },
+    ];
+
+    await this.userStore.fetchCategoriesExpensesReport(
+      this.range.value as { start: string | null; end: string | null }
+    );
+    const categoriesExpensesReport = this.userStore.categoriesExpensesReport;
+
+    let countFood = 0;
+    let countStudy = 0;
+    let countHome = 0;
+    let countClothes = 0;
+    let countPersonal = 0;
+
+    for (const consumption of categoriesExpensesReport) {
+      switch (consumption.category_id) {
+        case 1:
+          countFood = consumption._count.id;
+          break;
+        case 2:
+          countStudy = consumption._count.id;
+          break;
+        case 3:
+          countHome = consumption._count.id;
+          break;
+        case 4:
+          countClothes = consumption._count.id;
+          break;
+        case 5:
+          countPersonal = consumption._count.id;
+          break;
+      }
+    }
+
+    this.multi = [
+      {
+        name: 'Alimentación',
+        value: countFood,
+      },
+      {
+        name: 'Estudio',
+        value: countStudy,
+      },
+      {
+        name: 'Hogar',
+        value: countHome,
+      },
+      {
+        name: 'Ropa',
+        value: countClothes,
+      },
+      {
+        name: 'Personal',
+        value: countPersonal,
+      },
+    ];
+  }
+
+  private getGraphics(userList: User[]) {
+    const graphicCounts = userList.reduce(
+      (acc, curr) => {
+        if (curr.rol === Rol.ADMIN) {
+          acc.adminCount++;
+        } else if (curr.rol === Rol.CONSUMMER) {
+          acc.consummerCount++;
+        }
+        if (curr.enabled == true) {
+          acc.activeCount++;
+        } else {
+          acc.inactiveCount++;
+        }
+        return acc;
+      },
+      { adminCount: 0, consummerCount: 0, activeCount: 0, inactiveCount: 0 }
+    );
+    this.pie = [
+      {
+        name: 'Administradores',
+        value: graphicCounts.adminCount,
+      },
+      {
+        name: 'Consumidores',
+        value: graphicCounts.consummerCount,
+      },
+    ];
+    this.actives = [
+      {
+        name: 'Activos',
+        value: graphicCounts.activeCount,
+      },
+      {
+        name: 'Inactivos',
+        value: graphicCounts.inactiveCount,
+      },
+    ];
+  }
 }

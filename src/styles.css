@@ -15,3 +15,7 @@
     overflow: unset !important;
     position: relative;
 }
+
+.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #ffffff !important;
+  }

@@ -5,8 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { IModalService } from 'src/app/interfaces/i-modal-service';
 import { INotificationService } from 'src/app/interfaces/i-notification-service';
+import { User } from 'src/app/models/User';
+import { userStore } from 'src/app/pages/users.store';
 
 @Component({
   selector: 'app-user-info',
@@ -14,27 +17,40 @@ import { INotificationService } from 'src/app/interfaces/i-notification-service'
   styleUrls: ['./user-info.component.css'],
 })
 export class UserInfoComponent implements OnInit {
-
   names: FormControl = new FormControl('', [Validators.required]);
-  lastnames: FormControl = new FormControl('', [Validators.required]);
   email: FormControl = new FormControl('', [Validators.email]);
+  password: FormControl = new FormControl('', [Validators.required]);
   rol: FormControl = new FormControl('', [Validators.required]);
   enabled: FormControl = new FormControl(true);
   form: FormGroup = this.fb.group({
     names: this.names,
-    lastnames: this.lastnames,
+    email: this.email,
+    password: this.password,
+    rol: this.rol,
+    enabled: this.enabled,
+  });
+  formUpdate: FormGroup = this.fb.group({
+    names: this.names,
     email: this.email,
     rol: this.rol,
-    enabled: this.enabled
+    enabled: this.enabled,
   });
+  actualUser: User | null = null;
+  hide: boolean = true;
 
   constructor(
     private fb: FormBuilder,
-    private modalService: IModalService,
-    private notificationService: INotificationService
+    private dialogRef: MatDialogRef<UserInfoComponent>,
+    private userStore: userStore
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    (async () => {
+      if (this.userStore.actualUser != null) {
+        await this.chargeInfo();
+      }
+    })();
+  }
 
   getErrorEmailMessage() {
     return this.email.hasError('required')
@@ -42,5 +58,37 @@ export class UserInfoComponent implements OnInit {
       : this.email.hasError('email')
       ? 'Debes ingresar un correo válido'
       : '';
+  }
+
+  async chargeInfo() {
+    this.actualUser = this.userStore.actualUser;
+    this.form.get('names')?.setValue(this.actualUser?.name);
+    this.form.get('email')?.setValue(this.actualUser?.email);
+    this.form.get('password')?.setValue(this.actualUser?.password);
+    this.form.get('rol')?.setValue(this.actualUser?.rol);
+    this.form.get('enabled')?.setValue(this.actualUser?.enabled);
+  }
+
+  async deleteUser() {
+    this.dialogRef.close();
+    await this.userStore.deleteUser();
+  }
+
+  async createUser() {
+    this.dialogRef.close();
+    await this.userStore.createUser(
+      this.form.value as {
+        names: string;
+        email: string;
+        password: string;
+        rol: string;
+        enabled: boolean;
+      }
+    );
+  }
+  
+  async updateUser() {
+    this.dialogRef.close();
+    await this.userStore.updateUser(this.formUpdate.value);
   }
 }
