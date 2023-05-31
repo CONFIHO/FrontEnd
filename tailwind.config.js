@@ -16,6 +16,7 @@ module.exports = {
         gray_extra_light: '#F3F3F3',
         green: '#17A100',
         red: '#FF6767',
+        orange_chart: '#e44d25',
       },
       fontSize: {
         8: ["0.5rem", "1rem"],

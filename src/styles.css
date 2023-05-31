@@ -3,19 +3,24 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-::-webkit-scrollbar{
-    display: none;
+::-webkit-scrollbar {
+  display: none;
 }
 
-.mat-dialog-container{
-    overflow: unset !important;
-    position: relative;
+.mat-dialog-container {
+  overflow: unset !important;
+  position: relative;
 }
 
-.mat-progress-spinner circle, .mat-spinner circle {
-    stroke: #ffffff !important;
-  }
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #ffffff !important;
+}
+
+g ~ text {
+  transform: scale(5.33, 5.33) !important;
+}

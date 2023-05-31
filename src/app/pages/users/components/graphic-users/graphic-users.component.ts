@@ -20,7 +20,7 @@ export class GraphicUsersComponent implements OnInit, OnDestroy {
     name: '',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#a8385d', '#5107AF'],
+    domain: ['#a8385d', '#5107AF', '#e44d25'],
   };
   users$!: Subscription;
 
@@ -29,13 +29,15 @@ export class GraphicUsersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.users$ = this.userStore.userList$.subscribe((userList) => {
       const counts = userList.reduce((acc, curr) => {
-        if (curr.rol === Rol.ADMIN) {
+        if (curr.rol === Rol.ADMIN && curr.enabled) {
           acc.adminCount++;
-        } else if (curr.rol === Rol.CONSUMMER) {
+        } else if (curr.rol === Rol.CONSUMMER && curr.enabled) {
           acc.consummerCount++;
+        }else if (curr.rol === Rol.SUPER_ADMIN && curr.enabled) {
+          acc.superAdminCount++;
         }
         return acc;
-      }, { adminCount: 0, consummerCount: 0 })
+      }, { adminCount: 0, consummerCount: 0, superAdminCount: 0 })
       this.single = [
         {
           name: 'Administradores',
@@ -44,6 +46,10 @@ export class GraphicUsersComponent implements OnInit, OnDestroy {
         {
           name: 'Consumidores',
           value: counts.consummerCount,
+        },
+        {
+          name: 'Super Administradores',
+          value: counts.superAdminCount,
         },
       ];
     });

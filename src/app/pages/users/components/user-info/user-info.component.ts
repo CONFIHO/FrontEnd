@@ -48,6 +48,9 @@ export class UserInfoComponent implements OnInit {
     (async () => {
       if (this.userStore.actualUser != null) {
         await this.chargeInfo();
+      }else{
+        this.formUpdate.reset()
+        this.form.reset()
       }
     })();
   }
