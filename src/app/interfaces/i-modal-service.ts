@@ -2,5 +2,5 @@ import { ComponentType } from '@angular/cdk/portal';
 
 export abstract class IModalService {
     
-  abstract open(component: ComponentType<any>): void;
+  abstract open(component: ComponentType<any>, onClose?: () => void): () => void;
 }

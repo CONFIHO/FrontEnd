@@ -74,6 +74,7 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit(): void {
     (async () => {
+      this.userStore.setFilters({filterState: '', filterUser: ''});
       await this.userStore.fetchUsers();
       this.users$ = this.userStore.userList$.subscribe((userList) => {
         this.getGraphics(userList);

@@ -97,7 +97,7 @@ export class userStore extends Store<userProps> {
         rol_id: params.filterUser
           ? params.filterUser == 'admin'
             ? 1
-            : 2
+            : params.filterUser == 'consummer' ? 2:3
           : undefined,
         is_active: params.filterState
           ? params.filterState == 'active'
@@ -173,7 +173,7 @@ export class userStore extends Store<userProps> {
 
   selectUser(index: number) {
     this.update((state) => ({
-      user: state.userList[index],
+      user: index == -1 ? null : state.userList[index],
     }));
   }
 
