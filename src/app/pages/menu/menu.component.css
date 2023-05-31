@@ -1,0 +1,5 @@
+.content{
+    width: calc(100vw - 203px);
+    height: calc(100vh - 45px);
+    transform: translate(203px, 45px);
+}

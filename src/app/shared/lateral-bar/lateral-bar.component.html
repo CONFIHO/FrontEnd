@@ -1,0 +1,60 @@
+<div class="w-[203px] h-screen fixed left-0 bg-purple text-center text-white">
+  <img
+    src="assets/images/logo-circle.png"
+    class="inline-block mt-5"
+    alt=""
+    width="160"
+  />
+  <p class="text-16 font-black mx-2 mt-2 mb-5">
+    Control Financiero del Hogar ©
+  </p>
+  <button
+    mat-flat-button
+    [attr.selected]="selected == 0"
+    (click)="goTo(0)"
+    class="text-white rounded w-[178px] drop-shadow-md"
+  >
+    <mat-icon class="text-white mr-2">supervised_user_circle</mat-icon>
+    <span>Usuarios</span>
+  </button>
+  <div class="h-2"></div>
+  <button
+    mat-flat-button
+    [attr.selected]="selected == 1"
+    (click)="goTo(1)"
+    class="text-white rounded w-[178px] drop-shadow-md"
+  >
+    <mat-icon class="text-white mr-2">pie_chart</mat-icon> <span>Reportes</span>
+  </button>
+</div>
+<div class="fixed top-0 left-[203px] h-[45px] z-20 bg-gary_ligth">
+  <div class="relative">
+    <img
+      src="assets/images/dino-profile-nobg.png"
+      class="mt-1 ml-1 inline-block"
+      alt=""
+      width="39"
+    />
+    <span class="font-black inline-block translate-y-1"
+      >Super Administrador</span
+    >
+    <img
+      [matMenuTriggerFor]="settingsMenu"
+      src="assets/icons/superadmin.svg"
+      class="cursor-pointer absolute right-2 mt-2 ml-1 inline-block"
+      alt=""
+    />
+    <span
+      class="absolute right-10 select-none cursor-pointer inline-block top-2"
+      [matMenuTriggerFor]="settingsMenu"
+      >{{ name }}</span
+    >
+  </div>
+</div>
+
+<mat-menu #settingsMenu class="p-5 text-center" xPosition="before">
+  <p class="font-black mb-5">Super Administrador</p>
+  <button mat-menu-item (click)="logOut()">
+    <mat-icon>close</mat-icon> <span>Cerrar sesión</span>
+  </button>
+</mat-menu>

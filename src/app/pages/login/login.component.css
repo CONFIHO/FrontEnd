@@ -1,0 +1,10 @@
+.bg-purple{
+    background: url('../../../assets/images/bg-purple.png');
+    background-size: contain;
+    background-color: #5703C1;
+}
+
+.bg-left{
+    background: url('../../../assets/images/bg-white.png');
+    background-size: contain;
+}

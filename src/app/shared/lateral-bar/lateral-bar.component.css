@@ -1,0 +1,15 @@
+.bg-purple{
+    background-image: url('../../../assets/images/bg-purple.png');
+}
+
+.bg-gary_ligth{
+    width: calc(100vw - 203px);
+}
+
+button[selected=false]{
+    background-color: #2C144A;
+}
+
+button[selected=true]{
+    background-color: #6735A7;
+}
